@@ -1,10 +1,10 @@
 services:
 
-    valorant-digital-workspace-web:
+    embaNET-dashboarding-admincast:
 
-        container_name: valorant-digital-workspace-web
+        container_name: embaNET-dashboarding-admincast
 
-        image: softwareshinobi/valorant-digital-workspace-web:aventador
+        image: softwareshinobi/embaNET-dashboarding-admincast
 
         build: 
 

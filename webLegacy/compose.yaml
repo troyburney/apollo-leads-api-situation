@@ -1,0 +1,17 @@
+services:
+
+    valorant-digital-workspace-web:
+
+        container_name: valorant-digital-workspace-web
+
+        image: softwareshinobi/valorant-digital-workspace-web:aventador
+
+        build: 
+
+            context: .
+
+            dockerfile: Dockerfile
+
+        ports:
+
+            - 8080:80

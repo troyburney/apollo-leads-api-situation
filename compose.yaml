@@ -2,15 +2,15 @@ services:
 
 ##########################################
 ##
-## kanban-flow / bootstrap front end
+## the-garudaworks-dashboard / bootstrap front end
 ##
 ##########################################
 
-    kanban-flow-web:
+    the-garudaworks-dashboard-web:
 
-        container_name: kanban-flow-web
+        container_name: the-garudaworks-dashboard-web
 
-        image: softwareshinobi/kanban-flow-web:intranet
+        image: softwareshinobi/the-garudaworks-dashboard-web:intranet
 
         build: 
 
@@ -26,15 +26,15 @@ services:
 
 ##########################################
 ##
-## kanban-flow / spring rest back end
+## the-garudaworks-dashboard / spring rest back end
 ##
 ##########################################
 
-    kanban-flow-api:
-
-        container_name: kanban-flow-api
+    the-garudaworks-dashboard-api:
+cker
+        container_name: the-garudaworks-dashboard-api
         
-        image: softwareshinobi/kanban-flow-api:intranet
+        image: softwareshinobi/the-garudaworks-dashboard-api:intranet
 
         build: 
 
@@ -60,15 +60,15 @@ services:
 
 ##########################################
 ##
-## kanban-flow / documentation
+## the-garudaworks-dashboard / documentation
 ##
 ##########################################
 
-    kanban-flow-docs:
+    the-garudaworks-dashboard-docs:
 
-        container_name: kanban-flow-docs
+        container_name: the-garudaworks-dashboard-docs
 
-        image: softwareshinobi/kanban-flow-docs:intranet
+        image: softwareshinobi/the-garudaworks-dashboard-docs:intranet
 
         build: 
 
