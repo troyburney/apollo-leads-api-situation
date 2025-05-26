@@ -16,15 +16,15 @@
         
     </parent>
     
-    <groupId>digital.softwareshinobi</groupId>
+    <groupId>com.softwareshinobi</groupId>
     
-    <artifactId>kanban-flow-dashboard-reporting</artifactId>
+    <artifactId>kanban-flow-dashboard</artifactId>
     
     <version>1.0</version>
     
-    <name>kanban-flow-dashboard-reporting</name>
+    <name>kanban-flow-dashboard</name>
     
-    <description>kanban-flow-dashboard-reporting</description>
+    <description>kanban-flow-dashboard</description>
 
     <properties>        
         <java.version>17</java.version>        

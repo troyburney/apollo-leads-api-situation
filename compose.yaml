@@ -2,39 +2,61 @@ services:
 
 ##########################################
 ##
-## the-garudaworks-dashboard / bootstrap front end
+## kanban-flow-dashboard / data management
 ##
 ##########################################
 
-    the-garudaworks-dashboard-web:
+    kanban-flow-dashboard-database:
 
-        container_name: the-garudaworks-dashboard-web
+        container_name: kanban-flow-dashboard-database
 
-        image: softwareshinobi/the-garudaworks-dashboard-web:intranet
+        image: mariadb:latest
 
-        build: 
+        ports:
 
-            context: web
+            - "3306:3306"
+      
+        restart: unless-stopped
 
-            dockerfile: Dockerfile
+        environment:
+
+            MYSQL_ROOT_PASSWORD: aggiepride
+            
+            MYSQL_DATABASE: sandbox
+
+            MYSQL_USER: sandbox
+
+            MYSQL_PASSWORD: sandbox
+
+    kanban-flow-dashboard-phpmyadmin:
+
+        container_name: kanban-flow-dashboard-phpmyadmin
+
+        image: beeyev/phpmyadmin-lightweight:latest
 
         restart: unless-stopped
 
         ports:
 
-            - "10.28.1.1:8080:80"
-
-##########################################
-##
-## the-garudaworks-dashboard / spring rest back end
-##
-##########################################
-
-    the-garudaworks-dashboard-api:
-cker
-        container_name: the-garudaworks-dashboard-api
+            - "3380:80"
+      
+        depends_on:
         
-        image: softwareshinobi/the-garudaworks-dashboard-api:intranet
+            - kanban-flow-dashboard-database
+
+        environment:
+    
+            PMA_HOST: kanban-flow-dashboard-database
+
+            PMA_PORT: 3306
+
+            PMA_ARBITRARY: 1
+
+    kanban-flow-dashboard-apis:
+      
+        container_name: kanban-flow-dashboard-apis
+        
+        image: softwareshinobi/kanban-flow-dashboard-apis
 
         build: 
 
@@ -46,29 +68,79 @@ cker
 
         ports:
 
-            - "10.28.1.1:8888:8888"
-
+            - "8888:8888"
+        
         environment:
 
-            DB_HOST: 10.28.1.1
+            DB_HOST: kanban-flow-dashboard-database
+            
+            DB_PORT: 3306
 
-            DB_NAME: kanban_flow_api
+            DB_NAME: sandbox
 
-            DB_USER: kanban_flow_api
+            DB_USER: sandbox
 
-            DB_PASS: kanban_flow_api
+            DB_PASS: sandbox
 
-##########################################
-##
-## the-garudaworks-dashboard / documentation
-##
-##########################################
+    kanban-flow-dashboard-web-adminlte:
 
-    the-garudaworks-dashboard-docs:
+        container_name: kanban-flow-dashboard-web-adminlte
 
-        container_name: the-garudaworks-dashboard-docs
+        image: softwareshinobi/kanban-flow-dashboard-web:adminlte
 
-        image: softwareshinobi/the-garudaworks-dashboard-docs:intranet
+        build: 
+
+            context: web/adminlte
+
+            dockerfile: Dockerfile
+
+        restart: unless-stopped
+
+        ports:
+
+            - "8000:80"
+
+    kanban-flow-dashboard-web-admincast:
+
+        container_name: kanban-flow-dashboard-web-admincast
+
+        image: softwareshinobi/kanban-flow-dashboard-web:admincast
+
+        build: 
+
+            context: web/admincast
+
+            dockerfile: Dockerfile
+
+        restart: unless-stopped
+
+        ports:
+
+            - "8001:80"
+
+    kanban-flow-dashboard-web-darkpan:
+
+        container_name: kanban-flow-dashboard-web-darkpan
+
+        image: softwareshinobi/kanban-flow-dashboard-web:darkpan
+
+        build: 
+
+            context: web/darkpan
+
+            dockerfile: Dockerfile
+
+        restart: unless-stopped
+
+        ports:
+
+            - "8002:80"
+
+    kanban-flow-dashboard-docs:
+
+        container_name: kanban-flow-dashboard-docs
+
+        image: softwareshinobi/kanban-flow-dashboard:docs
 
         build: 
 
@@ -80,4 +152,4 @@ cker
 
         ports:
 
-            - "10.28.1.1:8081:80"
+            - "8880:80"
