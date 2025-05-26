@@ -3,45 +3,45 @@ $(document).ready(function () {
 
     paintUserContent();
 
-	setInterval(paintUserContent, 1000 * 8);
-	
+    setInterval(paintUserContent, 1000 * 8);
+
 });
 
 function paintUserContent() {
 
-	console.debug("enter > paintUserContent");	
+    console.debug("enter > paintUserContent");
 
-	$.ajax({
+    $.ajax({
 
-		type: "GET",
-		
-		url: apiURLBase + "/story",
+        type: "GET",
 
-		contentType: "text/plain",
-		
-		crossDomain: true,				
+        url: apiURLBase + "/story",
 
-		success: function (data, status, jqXHR) {
+        contentType: "text/plain",
 
-            injectStoryContentIntoTable(data);           
+        crossDomain: true,
 
-		},
+        success: function (data, status, jqXHR) {
 
-		error: function (jqXHR, status) {
+            injectStoryContentIntoTable(data);
 
-			console.log("Something Went wrong");
-		
-			console.log(jqXHR);
+        },
 
-		}
+        error: function (jqXHR, status) {
 
-	});
+            console.log("Something Went wrong");
+
+            console.log(jqXHR);
+
+        }
+
+    });
 
 }
 
 function injectStoryContentIntoTable(story) {
 
-    console.log("story / ",story);
+    console.log("story / ", story);
 
     var html = '';
 
@@ -55,9 +55,9 @@ function injectStoryContentIntoTable(story) {
 
         html += '<td>' + story[index].id + '</td>';
 
-        html += '<td>' + story[index].project + '</td>';
+        html += '<td>' + lookupProjectName(story[index].project) + '</td>';
 
-        html += '<td>' + story[index].intention + '</td>';
+        html += '<td>' + story[index].name + '</td>';
 
         html += '<td>' + story[index].description + '</td>';
 
@@ -71,20 +71,66 @@ function injectStoryContentIntoTable(story) {
 //html += '    View';
 //html += '    </a>';
 
-html += '    <a onclick="setEditStoryID(' + story[index].id  + ')" class="btn btn-secondary btn-sm" href="update.html">';
+        html += '    <a onclick="setEditStoryID(' + story[index].id + ')" class="btn btn-secondary btn-sm" href="update.html">';
 
-html += '    <i class="fas fa-folder">';
+        html += '    <i class="fas fa-folder">';
 
-html += '    </i>';
+        html += '    </i>';
 
-html += '    View';
+        html += '    View';
 
-html += '    </a>';
+        html += '    </a>';
 
-html += '    </td>	';
+        html += '    </td>	';
+
+    }
+
+    $('#project-list  > tbody').html(html);
 
 }
 
-    $('#project-list  > tbody').html(html);   
+function lookupProjectName(projectID) {
+
+    console.debug("enter > lookupProjectName");
+
+    var projectName = "--";
+
+    $.ajax({
+
+        type: "GET",
+
+        url: apiURLBase + "/project/" + projectID,
+
+        contentType: "text/plain",
+
+        async: false,
+
+        crossDomain: true,
+
+        success: function (data, status, jqXHR) {
+
+            //   alert("yo?");
+
+            console.log("data / ", data);
+
+            projectName = data.name;
+
+        },
+
+        error: function (jqXHR, status) {
+
+            console.log("Something Went wrong");
+
+            console.log(jqXHR);
+
+            projectName = "error!!!";
+
+        }
+
+    });
+
+    console.log("project name final / ", projectName);
+
+    return projectName;
 
 }

@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,7 @@ public class UserStory {
 
     //   @NonNull
     @Column(name = "project")
-    private String project;
+    private Integer project;
 
     //   @NonNull
     @Column(name = "name")
@@ -31,9 +30,9 @@ public class UserStory {
     @Column(name = "detail", columnDefinition = "LONGTEXT")
     private String description;
 
-    //  @NonNull
-    @Column(name = "intention")
-    private String intention;
+//    //  @NonNull
+//    @Column(name = "intention")
+//    private String intention;
 
 //    //  @NonNull
 //    @Column(name = "category")
@@ -49,7 +48,7 @@ public class UserStory {
         sb.append("id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", description=").append(description);
-        sb.append(", intention=").append(intention);
+    //    sb.append(", intention=").append(intention);
         sb.append(", project=").append(project);
         sb.append(", status=").append(status);
         sb.append('}');
@@ -80,19 +79,19 @@ public class UserStory {
         this.description = description;
     }
 
-    public String getIntention() {
-        return intention;
-    }
+//    public String getIntention() {
+//        return intention;
+//    }
+//
+//    public void setIntention(String intention) {
+//        this.intention = intention;
+//    }
 
-    public void setIntention(String intention) {
-        this.intention = intention;
-    }
-
-    public String getProject() {
+    public Integer getProject() {
         return project;
     }
 
-    public void setProject(String project) {
+    public void setProject(Integer project) {
         this.project = project;
     }
 
