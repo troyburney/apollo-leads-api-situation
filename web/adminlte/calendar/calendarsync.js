@@ -4,8 +4,6 @@ $(document).ready(function () {
 
 //    resetServerCalendarDetails();
 
-    setInterval(saveCalendarDetailsToServer, 1000 * 10);
-
 });
 
 function getCalendarDetailsFromServer() {
@@ -22,13 +20,26 @@ function getCalendarDetailsFromServer() {
 
 		dataType: "text",
 
-		success: function (response, status, jqXHR) {
 
-            var calendarData = JSON.parse(response);
+       success: function (calendarData) {
+            // calendarData is now an object e.g., {id: 1, content: "[{event1},{event2}]"}
+            // calendarData.content is expected to be a JSON string of events.
+            console.log("Simplified: Received calendarData object:", calendarData);
 
-    console.log("calendarData",calendarData);    
+            var eventsArray = JSON.parse(calendarData); // Parse the inner JSON string into an array
 
-            $(calendarData).each(function(index, element) {
+
+            console.log("Simplified: Parsed eventsArray:", eventsArray);
+
+            // valorantCalendar.removeAllEvents(); // Consider clearing events if function is called multiple times
+
+var b = JSON.parse(eventsArray.content);
+
+            console.log("Simplified: Parsed b:", b);
+
+console.log("type / " + typeof b); // "string"
+
+ $(b).each(function(index, element) {
 
                 console.log("element / " + index + " / " + element.title);
 
@@ -39,15 +50,14 @@ function getCalendarDetailsFromServer() {
                     start: element.start,
 
                     end: element.end,
-    
+
                     backgroundColor: element.backgroundColor,
 
                 });
 
             });
 
-		},
-
+       },
 		error: function (exception, status) {
 
 			console.log("error issuing request");
@@ -62,9 +72,10 @@ function getCalendarDetailsFromServer() {
 
 }
 
-function saveCalendarDetailsToServer() {
+function saveCalendarChanges() {
 
-	console.debug("enter -> saveCalendarDetailsToServer");
+// alert("saveCalendarChanges");
+	console.debug("enter -> saveCalendarChanges");
 
 //////////////////////////////////////////
 
@@ -84,15 +95,19 @@ function saveCalendarDetailsToServer() {
 
 	payload = JSON.stringify({
 
-        intention: valorantCalendarEventsJSON,        
+        id: 1,
+
+        content: valorantCalendarEventsJSON,
 
 	});
+
+console.log("payload!! / ",payload);
 
 //////////////////////////////////////////
 
 	$.ajax({
 
-		type: "POST",
+		type: "PUT",
 
 		url: apiURLBase + "/calendar",
 
@@ -102,7 +117,7 @@ function saveCalendarDetailsToServer() {
 
 		crossDomain: true,
 
-		dataType: "text",
+       dataType: "json", // Expect a JSON response, jQuery will parse it
 
 		success: function (response, status, jqXHR) {
 

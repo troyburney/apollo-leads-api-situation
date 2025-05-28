@@ -1,70 +1,37 @@
 package com.softwareshinobi.kanbanflow.calendar;
 
-import java.util.Map;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
 @CrossOrigin
+@RestController
 @RequestMapping("calendar")
 public class CalendarController {
 
-    private final String INTENTION_DEFAULT = "the five b's forever";
+    @Autowired
+    CalendarService calendarService;
 
-    private String intention = INTENTION_DEFAULT;
-
-    public static final String KEY_INTENTION = "intention";
-
-   public CalendarController() {
+    public CalendarController() {
 
         System.out.println("## ");
-        System.out.println("## init > Intention Controller");
+        System.out.println("## init > Calendar API");
         System.out.println("## ");
 
     }
 
     @GetMapping("")
-    public String getIntention() {
+    public Calendar getCalendar() {
 
-        return this.intention;
+        System.out.println("yo?");
 
-    }
-
-    @PostMapping("")
-    public String setIntention(@RequestBody Map requestPayLoad) {
-
-        System.out.println("enter > setIntention");
-
-        System.out.println("requestPayLoad / " + requestPayLoad);
-
-        String intentionFromPayload = requestPayLoad.get(KEY_INTENTION).toString().trim();
-
-        System.out.println("intention / payload / " + intentionFromPayload);
-
-        System.out.println("intention / before / " + this.intention);
-
-        this.intention = intentionFromPayload;
-
-        System.out.println("intention /  after / " + this.intention);
-
-        String confirmationString = "intention updated /".concat(intention).concat("/");
-
-        System.out.println("return / " + confirmationString);
-
-        System.out.println("exit < setIntention()");
-
-        return confirmationString;
+        return this.calendarService.fetch();
 
     }
 
-    @GetMapping("health")
-    public String getHealth() {
+    @PutMapping("")
+    public Calendar putCalendar(@RequestBody Calendar calendar) {
 
-        return "OK";
+        return this.calendarService.save(calendar);
 
     }
 
