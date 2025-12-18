@@ -2,13 +2,13 @@ services:
 
 ##########################################
 ##
-## kanban-flow-dashboard / data management
+## kanban-flow / data management
 ##
 ##########################################
 
-    kanban-flow-dashboard-database:
+    kanban-flow-database:
 
-        container_name: kanban-flow-dashboard-database
+        container_name: kanban-flow-database
 
         image: mariadb:latest
 
@@ -28,9 +28,9 @@ services:
 
             MYSQL_PASSWORD: sandbox
 
-    kanban-flow-dashboard-phpmyadmin:
+    kanban-flow-phpmyadmin:
 
-        container_name: kanban-flow-dashboard-phpmyadmin
+        container_name: kanban-flow-phpmyadmin
 
         image: beeyev/phpmyadmin-lightweight:latest
 
@@ -42,21 +42,21 @@ services:
       
         depends_on:
         
-            - kanban-flow-dashboard-database
+            - kanban-flow-database
 
         environment:
     
-            PMA_HOST: kanban-flow-dashboard-database
+            PMA_HOST: kanban-flow-database
 
             PMA_PORT: 3306
 
             PMA_ARBITRARY: 1
 
-    kanban-flow-dashboard-apis:
+    kanban-flow-apis:
       
-        container_name: kanban-flow-dashboard-apis
+        container_name: kanban-flow-apis
         
-        image: softwareshinobi/kanban-flow-dashboard-apis
+        image: softwareshinobi/kanban-flow-apis
 
         build: 
 
@@ -72,7 +72,7 @@ services:
         
         environment:
 
-            DB_HOST: kanban-flow-dashboard-database
+            DB_HOST: kanban-flow-database
             
             DB_PORT: 3306
 
@@ -82,15 +82,15 @@ services:
 
             DB_PASS: sandbox
 
-    kanban-flow-dashboard-web-adminlte:
+    kanban-flow-app-adminlte:
 
-        container_name: kanban-flow-dashboard-web-adminlte
+        container_name: kanban-flow-app-adminlte
 
-        image: softwareshinobi/kanban-flow-dashboard-web:adminlte
+        image: softwareshinobi/kanban-flow-app:intranet
 
         build: 
 
-            context: web/adminlte
+            context: app/adminlte
 
             dockerfile: Dockerfile
 
@@ -100,15 +100,15 @@ services:
 
             - "8000:80"
 
-    kanban-flow-dashboard-web-admincast:
+    kanban-flow-app-admincast:
 
-        container_name: kanban-flow-dashboard-web-admincast
+        container_name: kanban-flow-app-admincast
 
-        image: softwareshinobi/kanban-flow-dashboard-web:admincast
+        image: softwareshinobi/kanban-flow-app:admincast
 
         build: 
 
-            context: web/admincast
+            context: app/admincast
 
             dockerfile: Dockerfile
 
@@ -118,15 +118,15 @@ services:
 
             - "8001:80"
 
-    kanban-flow-dashboard-web-darkpan:
+    kanban-flow-app-darkpan:
 
-        container_name: kanban-flow-dashboard-web-darkpan
+        container_name: kanban-flow-app-darkpan
 
-        image: softwareshinobi/kanban-flow-dashboard-web:darkpan
+        image: softwareshinobi/kanban-flow-app:darkpan
 
         build: 
 
-            context: web/darkpan
+            context: app/darkpan
 
             dockerfile: Dockerfile
 
@@ -136,11 +136,11 @@ services:
 
             - "8002:80"
 
-    kanban-flow-dashboard-docs:
+    kanban-flow-docs:
 
-        container_name: kanban-flow-dashboard-docs
+        container_name: kanban-flow-docs
 
-        image: softwareshinobi/kanban-flow-dashboard:docs
+        image: softwareshinobi/kanban-flow:docs
 
         build: 
 
