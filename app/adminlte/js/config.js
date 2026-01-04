@@ -1,1 +1,1 @@
-apiURLBase="http://intranet.softwareshinobi.online:8888"
+apiURLBase="http://localhost:8888"

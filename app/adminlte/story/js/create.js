@@ -80,7 +80,9 @@ function processForm() {
 
     storyPayload = JSON.stringify({
 
-        project: $("#selectProject").val(),
+        project: { 
+            id: $("#selectProject").val() 
+        },               
 
         name: $("#intention").val(),
 
