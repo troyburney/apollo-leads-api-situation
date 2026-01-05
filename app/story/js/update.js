@@ -81,12 +81,22 @@ function processUpdateForm() {
 
     userStoryName = $("#intention").val();
 
+alert("its where you think it is");
+
+let projectThing = projectID();
+
+console.log("project stuff: "+projectThing);
+
     storyPayload = JSON.stringify({
 
         id: $("#id").val(),
 
-        project: $("#selectProject").val(),
-
+        "project": {
+        
+            "id": projectThing
+            
+        },
+        
         name: $("#intention").val(),
 
         description: $("#description").val(),

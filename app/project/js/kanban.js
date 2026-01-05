@@ -137,13 +137,13 @@ function visualizeProjectBacklogUserStories() {
 
 function visualizeProjectTodoUserStories() {
 
-    console.debug("enter > visualizeProjectTodoUserStories");
+    console.debug("enter > visualizeProjectInScopeUserStories");
 
     $.ajax({
 
         type: "GET",
 
-        url: apiURLBase + "/story/status/todo",
+        url: apiURLBase + "/story/status/inscope",
 
         contentType: "text/plain",
 
