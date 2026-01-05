@@ -81,7 +81,7 @@ function processUpdateForm() {
 
     userStoryName = $("#intention").val();
 
-alert("its where you think it is");
+//alert("its where you think it is");
 
 let projectThing = projectID();
 
