@@ -2,13 +2,13 @@ services:
 
 ##########################################
 ##
-## kanban-flow / data management
+## kanbanflow / data management
 ##
 ##########################################
 
-    kanban-flow-database:
+    kanbanflow-database:
 
-        container_name: kanban-flow-database
+        container_name: kanbanflow-database
 
         image: mariadb:latest
 
@@ -22,15 +22,15 @@ services:
 
             MYSQL_ROOT_PASSWORD: aggiepride
             
-            MYSQL_DATABASE: sandbox
+            MYSQL_DATABASE: kanbanflow
 
-            MYSQL_USER: sandbox
+            MYSQL_USER: kanbanflow
 
-            MYSQL_PASSWORD: sandbox
+            MYSQL_PASSWORD: kanbanflow
 
-    kanban-flow-phpmyadmin:
+    kanbanflow-phpmyadmin:
 
-        container_name: kanban-flow-phpmyadmin
+        container_name: kanbanflow-phpmyadmin
 
         image: beeyev/phpmyadmin-lightweight:latest
 
@@ -42,21 +42,21 @@ services:
       
         depends_on:
         
-            - kanban-flow-database
+            - kanbanflow-database
 
         environment:
     
-            PMA_HOST: kanban-flow-database
+            PMA_HOST: kanbanflow-database
 
             PMA_PORT: 3306
 
             PMA_ARBITRARY: 1
 
-    kanban-flow-apis:
+    kanbanflow-apis:
       
-        container_name: kanban-flow-apis
+        container_name: kanbanflow-apis
         
-        image: softwareshinobi/kanban-flow-apis
+        image: softwareshinobi/kanbanflow-apis:main
 
         build: 
 
@@ -68,29 +68,29 @@ services:
 
         ports:
 
-            - "8888:8888"
+            - 8888:8888
         
         environment:
 
-            DB_HOST: kanban-flow-database
+            DB_HOST: kanbanflow-database
             
             DB_PORT: 3306
 
-            DB_NAME: sandbox
+            DB_NAME: kanbanflow
 
-            DB_USER: sandbox
+            DB_USER: kanbanflow
 
-            DB_PASS: sandbox
+            DB_PASS: kanbanflow
 
-    kanban-flow-app-adminlte:
+    kanbanflow-app:
 
-        container_name: kanban-flow-app-adminlte
+        container_name: kanbanflow-app
 
-        image: softwareshinobi/kanban-flow-app:intranet
+        image: softwareshinobi/kanbanflow-app:main
 
         build: 
 
-            context: app/adminlte
+            context: app
 
             dockerfile: Dockerfile
 
@@ -98,49 +98,13 @@ services:
 
         ports:
 
-            - "8000:80"
+            - 8000:80
 
-    kanban-flow-app-admincast:
+    kanbanflow-docs:
 
-        container_name: kanban-flow-app-admincast
+        container_name: kanbanflow-docs
 
-        image: softwareshinobi/kanban-flow-app:admincast
-
-        build: 
-
-            context: app/admincast
-
-            dockerfile: Dockerfile
-
-        restart: unless-stopped
-
-        ports:
-
-            - "8001:80"
-
-    kanban-flow-app-darkpan:
-
-        container_name: kanban-flow-app-darkpan
-
-        image: softwareshinobi/kanban-flow-app:darkpan
-
-        build: 
-
-            context: app/darkpan
-
-            dockerfile: Dockerfile
-
-        restart: unless-stopped
-
-        ports:
-
-            - "8002:80"
-
-    kanban-flow-docs:
-
-        container_name: kanban-flow-docs
-
-        image: softwareshinobi/kanban-flow:docs
+        image: softwareshinobi/kanbanflow-docs:main
 
         build: 
 
@@ -152,4 +116,4 @@ services:
 
         ports:
 
-            - "8880:80"
+            - 8880:80
