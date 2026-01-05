@@ -4,7 +4,7 @@ $(document).ready(function () {
     toastr.info(
             'Project Story Board',
             'viewing story board for: "' + projectName() + '".',
-            {timeOut: 8000});
+            {timeOut: 5000});
 
     visualizeProjectUserStories();
 
@@ -46,9 +46,13 @@ function ffilter(storyList) {
 
         //
 
+console.log("the ID " + index);
+
+console.log("the value " + storyList[index]);
+
         var selectedProjectID = parseInt(projectID());
 
-        var currentProjectID = parseInt(storyList[index].project);
+        var currentProjectID = parseInt(storyList[index].project.id);
 
         console.log("selectedProjectID / ", selectedProjectID);
 
