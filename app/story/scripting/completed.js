@@ -49,7 +49,7 @@ function injectStoryContentIntoTable(story) {
 
 //        html += '<td>' + story[index].id + '</td>';
 
-        html += '<td class="col-1">' + '<img styles="visibility:hidden" alt="Software Shinobi" class="table-avatar" src="../dist/img/avatar.png">' + '</td>';
+        html += '<td class="col-1">' + '<ibbbg styles="visibility:hidden" alt="Software Shinobi" class="table-avatar" src="../dist/img/avatar.png">' + '</td>';
 
         html += '<td>' + story[index].name + '</td>';
 

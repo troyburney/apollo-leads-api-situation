@@ -1,0 +1,55 @@
+<div id="loadingSpinner" class="alert alert-info mt-3" style="display: none;" role="alert">
+    IN PROGRESS: Requesting Content From Server
+</div>
+
+<div id="actionButtonsArea" class="row justify-content-center g-3 p-4 bg-gray-100 rounded-lg shadow-md mx-0">
+
+    <div class="col-12 col-md-3 mb-3 mb-md-0">
+        <button
+            id="generateArticleBtn"
+
+            class="btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out w-100 d-flex align-items-center justify-content-center"
+            >
+            <i class="ti-wand mr-2"></i> Generate
+        </button>
+    </div>
+
+    <div class="col-12 col-md-3 mb-3 mb-md-0">
+        <button
+            id="copyToClipboardBtn"
+            onclick="copyContent()"
+            class="btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out w-100 d-flex align-items-center justify-content-center"
+            >
+            <i class="ti-clipboard mr-2"></i> Copy
+        </button>
+    </div>
+
+    <div class="col-12 col-md-3 mb-3 mb-md-0">
+        <button
+            id="downloadBtn"
+            onclick="downloadContent()"
+            class="btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out w-100 d-flex align-items-center justify-content-center"
+            >
+            <i class="ti-download mr-2"></i> Download
+        </button>
+    </div>
+
+    <div class="col-12 col-md-3"> <!-- No mb-3 on the last one to avoid extra space at the bottom -->
+        <button
+            id="publishButton"
+            class="btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out w-100 d-flex align-items-center justify-content-center"
+            onclick="publishToWordPress()"
+            >
+            <i class="ti-share mr-2"></i> Publish
+        </button>
+    </div>
+
+</div>
+
+<div class="generated-content-box" id="generatedArticleContainer" style="display: none;">
+
+    <h4 class="card-title">Generated Content</h4>
+
+    <article id="generatedArticleOutput" class="form-group"></article>
+
+</div>

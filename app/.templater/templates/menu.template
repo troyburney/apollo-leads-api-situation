@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/index.html">KanbanFlow</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="/intention/intention.html">Intention</a></li>
+        <li class="nav-item"><a class="nav-link" href="/project/list.html">Projects</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/project/kanban.html">Kanban Board</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Work Space</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/story/inprogress.html">In Progress</a>
+            <a class="dropdown-item" href="/story/completed.html">Score Board</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/project/create.html">Create Project</a>
+            <a class="dropdown-item" href="/story/create.html">Create Story</a>
+          </div>
+        </li>
+      </ul>
+      <button class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#sidebarRight">
+        <i class="fas fa-th-large"></i> Project Switcher
+      </button>
+    </div>
+  </div>
+</nav>

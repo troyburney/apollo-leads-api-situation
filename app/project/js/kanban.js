@@ -1,244 +1,141 @@
-
 $(document).ready(function () {
-
     toastr.info(
-            'Project Story Board',
-            'viewing story board for: "' + projectName() + '".',
-            {timeOut: 5000});
+        'Project Story Board',
+        'Viewing story board for: "' + projectName() + '".',
+        {timeOut: 5000}
+    );
 
     visualizeProjectUserStories();
 
+    // Refresh every 10 seconds
     setInterval(visualizeProjectUserStories, 1000 * 10);
-
 });
 
 function visualizeProjectUserStories() {
-
     console.debug("enter > visualizeProjectUserStories");
 
+    // Update Banner if it exists
     $('#pageTitleBanner').html(projectName());
 
     visualizeProjectBacklogUserStories();
-
     visualizeProjectTodoUserStories();
-
     visualizeProjectInprogressUserStories();
-
     visualizeProjectDoneUserStories();
-
 }
 
+/**
+ * Generates the HTML for the Kanban Cards matching the new Darkly template
+ * Preserves the setEditStoryID functionality for the update flow
+ */
 function ffilter(storyList) {
-
     var html = '';
+    var selectedProjectID = parseInt(projectID());
 
     for (var index = 0; index < storyList.length; index++) {
+        var story = storyList[index];
+        var currentProjectID = parseInt(story.project.id);
 
-        console.debug("storyList[i].id > ", storyList[index].id);
-
-        console.debug("storyList[i].intention > ", storyList[index].intention);
-
-        console.debug("storyList[i].project > ", storyList[index].project);
-
-        console.debug("projectID / ", projectID());
-
-        console.debug("projectName / ", projectName());
-
-        //
-
-console.log("the ID " + index);
-
-console.log("the value " + storyList[index]);
-
-        var selectedProjectID = parseInt(projectID());
-
-        var currentProjectID = parseInt(storyList[index].project.id);
-
-        console.log("selectedProjectID / ", selectedProjectID);
-
-        console.log("currentProjectID / ", currentProjectID);
-
-        //
-
-        if (selectedProjectID === currentProjectID) {
-
-            console.log("is a match");
-
-        } else {
-
-            console.log("is NOT a match");
-
+        // Filter stories to only show those belonging to the active project
+        if (selectedProjectID !== currentProjectID) {
             continue;
-
         }
 
-        html += '<div class="card card-light card-outline">';
-        html += ' <div class="card-header">';
-        html += ' <h5 class="card-title">';
-        html += storyList[index].name;
-        html += ' </h5>';
-        html += ' <div class="card-tools">';
+        // Build the Darkly-styled Kanban Card
+        // Added data attribute for future drag-and-drop persistence
+        html += '<div class="kanban-card shadow-sm" data-id="' + story.id + '">';
+        
+        // Header row with Name and the Edit button
+        html += '  <div class="d-flex justify-content-between align-items-start mb-2">';
+        html += '    <h6 class="mb-0 text-info fw-bold">' + story.name + '</h6>';
+        
+        // EDIT BUTTON - Preserved setEditStoryID logic
+        html += '    <a onclick="setEditStoryID(' + story.id + ')" href="/story/update.html" class="btn btn-link p-0 text-secondary" title="Edit Story">';
+        html += '       <i class="fas fa-pen-to-square"></i>';
+        html += '    </a>';
+        html += '  </div>';
 
-        html += '<a onclick="setEditStoryID(' + storyList[index].id + ')" href="/story/update.html" class="btn btn-tool btn-link">#';
-        html += storyList[index].id;
-        html += '</a>';
-        html += ' <a onclick="setEditStoryID(' + storyList[index].id + ')" href="/story/update.html" class="btn btn-tool">';
-        html += ' <i class="fas fa-pen"></i>';
-        html += ' </a>';
-        html += ' </div>';
-        html += ' </div>';
-
-        html += ' <div class="card-body">';
-        html += ' <p>';
-        html += storyList[index].description;
-        html += ' </p>';
-        html += ' </div>';
-
-        html += ' </div>';
-
+        // Description text
+        html += '  <p class="text-light small mb-3 opacity-75">' + (story.description || 'No description.') + '</p>';
+        
+        // Footer: ID Badge and Intention Tag
+        html += '  <div class="d-flex justify-content-between align-items-center mt-2">';
+        html += '    <span class="badge bg-primary px-2 py-1">#' + story.id + '</span>';
+        
+        if(story.intention) {
+            html += '    <span class="text-uppercase text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 0.5px;">';
+            html += '      <i class="fas fa-bullseye me-1"></i>' + story.intention;
+            html += '    </span>';
+        }
+        
+        html += '  </div>';
+        html += '</div>';
     }
 
     return html;
-
 }
+
 function visualizeProjectBacklogUserStories() {
-
-    console.debug("enter > visualizeProjectBacklogUserStories");
-
     $.ajax({
-
         type: "GET",
-
         url: apiURLBase + "/story/status/backlog",
-
         contentType: "text/plain",
-
         crossDomain: true,
-
-        success: function (storyList, status, jqXHR) {
-
+        success: function (storyList) {
             const html = ffilter(storyList);
-
-            console.log("html", html);
-
-            $('#backlog-body').html(html);
-
-        },
-
-        error: function (jqXHR, status) {
-
-            console.log("Something Went wrong", jqXHR);
-
+            $('#backlog').html(html); // Updated ID to match new template
+            updateCounts(); // Refresh the badge counts
         }
-
     });
-
 }
 
 function visualizeProjectTodoUserStories() {
-
-    console.debug("enter > visualizeProjectInScopeUserStories");
-
     $.ajax({
-
         type: "GET",
-
         url: apiURLBase + "/story/status/inscope",
-
         contentType: "text/plain",
-
         crossDomain: true,
-
-        success: function (storyList, status, jqXHR) {
-
+        success: function (storyList) {
             const html = ffilter(storyList);
-
-            console.log("html", html);
-
-            $('#todo-body').html(html);
-
-        },
-
-        error: function (jqXHR, status) {
-
-            console.log("Something Went wrong");
-
-            console.log(jqXHR);
-
+            $('#todo').html(html); // Updated ID to match new template
+            updateCounts();
         }
-
     });
-
 }
 
 function visualizeProjectInprogressUserStories() {
-
-    console.debug("enter > visualizeProjectInprogressUserStories");
-
     $.ajax({
-
         type: "GET",
-
         url: apiURLBase + "/story/status/inprogress",
-
         contentType: "text/plain",
-
         crossDomain: true,
-
-        success: function (storyList, status, jqXHR) {
-
+        success: function (storyList) {
             const html = ffilter(storyList);
-
-            console.log("html", html);
-            
-            $('#inprogress-body').html(html);
-
-        },
-
-        error: function (jqXHR, status) {
-
-            console.log("Something Went wrong");
-
-            console.log(jqXHR);
-
+            $('#inprogress').html(html); // Updated ID to match new template
+            updateCounts();
         }
-
     });
-
 }
 
 function visualizeProjectDoneUserStories() {
-
-    console.debug("enter > visualizeProjectDoneUserStories");
-
     $.ajax({
-
         type: "GET",
-
         url: apiURLBase + "/story/status/done",
-
         contentType: "text/plain",
-
         crossDomain: true,
-
-        success: function (storyList, status, jqXHR) {
-
+        success: function (storyList) {
             const html = ffilter(storyList);
-
-            console.log("html", html);
-
-            $('#done-body').html(html);
-
-        },
-
-        error: function (jqXHR, status) {
-
-            console.log("Something Went wrong");
-
-            console.log(jqXHR);
-
+            $('#done').html(html); // Updated ID to match new template
+            updateCounts();
         }
-
     });
+}
 
+/**
+ * Helper to update the pill badges at the top of columns
+ */
+function updateCounts() {
+    $(".kanban-column").each(function() {
+        const count = $(this).find(".kanban-card").length;
+        $(this).find(".task-count").text(count);
+    });
 }

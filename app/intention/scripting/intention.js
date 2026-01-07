@@ -1,109 +1,86 @@
 $(document).ready(function () {
-
+    // Initial clear and fetch
     clearIntention();
-
     fetchIntention();
 
+    // Refresh intention every 8 seconds
     setInterval(fetchIntention, 8000);
 
+    // Auto-focus input when the modal is shown
+    $('#setIntentionModal').on('shown.bs.modal', function () {
+        $('#newIntention').focus();
+    });
 });
 
+/**
+ * Resets the input field for the new intention
+ */
 function clearIntention() {
-
-    console.debug("enter > fetchIntention");
-
+    console.debug("enter > clearIntention");
     $("#newIntention").val("");
-
 }
 
+/**
+ * Fetches the current intention from the API and updates the UI
+ */
 function fetchIntention() {
-
     console.debug("enter > fetchIntention");
 
     $.ajax({
-
         type: "GET",
-
-        url: apiURLBase + "",
-
+        url: apiURLBase + "", // Note: Ensure your config.js provides the full endpoint path if needed
         crossDomain: true,
-
         dataType: "text",
+        success: function (response) {
+            console.debug("fetchIntention > success");
 
-        success: function (response, status, jqXHR) {
+            // The large display text in the center of the screen
+            $("#intention").text(response);
 
-            //console.log("response / " + response);
-
-            var intention = response;
-
-            $("#intention").text(intention);
-
-            $("#currentIntention").val(intention);
-
+            // The read-only field inside the modal
+            $("#currentIntention").val(response);
         },
-
-        error: function (exception, status) {
-
-            console.error("error fetching intention / " + exception);
-
+        error: function (exception) {
+            console.error("error fetching intention / ", exception);
         }
-
     });
-
 }
 
+/**
+ * Sends the new intention to the API and refreshes the display
+ */
 function setIntention() {
-
     console.debug("enter > setIntention");
 
-    intention = $("#newIntention").val();
+    const newIntentionValue = $("#newIntention").val().trim();
 
-    console.log("new / intention / " + intention);
+    if (!newIntentionValue) {
+        console.warn("setIntention > attempt to set empty intention ignored");
+        return;
+    }
 
-    // alert("new / intention / " + intention);
-
-//////////////////////////////////////////
-
-    payload = JSON.stringify({
-
-        intention: intention,
-
+    const payload = JSON.stringify({
+        intention: newIntentionValue
     });
-
-    //alert("payload / ", payload);
-
-//////////////////////////////////////////
 
     $.ajax({
-
         type: "POST",
-
         url: apiURLBase + "",
-
         data: payload,
-
         contentType: "application/json; charset=utf-8",
-
         crossDomain: true,
-
         dataType: "text",
+        success: function (response) {
+            console.debug("setIntention > success / " + response);
 
-        success: function (response, status, jqXHR) {
-
-            console.log("response / " + response);
-
+            // Immediately update the UI
             fetchIntention();
 
+            // Clear the form for the next use
+            clearIntention();
         },
-
-        error: function (exception, status) {
-
-            console.log("error setting intention / ", exception);
-
+        error: function (exception) {
+            console.error("error setting intention / ", exception);
         }
-
     });
-
-    clearIntention();
-
 }

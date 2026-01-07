@@ -21,43 +21,34 @@ function getCalendarDetailsFromServer() {
 		dataType: "text",
 
 
-       success: function (calendarData) {
-            // calendarData is now an object e.g., {id: 1, content: "[{event1},{event2}]"}
-            // calendarData.content is expected to be a JSON string of events.
-            console.log("Simplified: Received calendarData object:", calendarData);
+success: function (calendarData) {
+    console.log("Received data:", calendarData);
 
-            var eventsArray = JSON.parse(calendarData); // Parse the inner JSON string into an array
+    // Clear existing events to prevent duplicates
+    valorantCalendar.removeAllEvents();
 
+    try {
+        // If your server returns a JSON string, parse it.
+        // If it's already an object, use it directly.
+        var data = (typeof calendarData === "string") ? JSON.parse(calendarData) : calendarData;
 
-            console.log("Simplified: Parsed eventsArray:", eventsArray);
+        // The server stores the array in a 'content' field as a stringified JSON
+        var events = JSON.parse(data.content);
 
-            // valorantCalendar.removeAllEvents(); // Consider clearing events if function is called multiple times
-
-var b = JSON.parse(eventsArray.content);
-
-            console.log("Simplified: Parsed b:", b);
-
-console.log("type / " + typeof b); // "string"
-
- $(b).each(function(index, element) {
-
-                console.log("element / " + index + " / " + element.title);
-
-                valorantCalendar.addEvent({
-
-                    title: element.title,
-
-                    start: element.start,
-
-                    end: element.end,
-
-                    backgroundColor: element.backgroundColor,
-
-                });
-
+        events.forEach(function(element) {
+            valorantCalendar.addEvent({
+                title: element.title,
+                start: element.start,
+                end: element.end,
+                backgroundColor: element.backgroundColor,
+                allDay: element.allDay
             });
-
-       },
+        });
+        console.log("Calendar Synced.");
+    } catch (e) {
+        console.error("Error parsing calendar data:", e);
+    }
+},
 		error: function (exception, status) {
 
 			console.log("error issuing request");

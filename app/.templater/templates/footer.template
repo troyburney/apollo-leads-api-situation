@@ -1,0 +1,8 @@
+<footer class="footer py-2 bg-light border-top">
+  <div class="container text-center">
+
+    <span class="text-muted d-inline-block">Experience Aria OS: An AI Content Engine by
+      <a href="https://softwareshinobi.online" target="_blank" class="text-primary">Software Shinobi</a>.
+    </span>
+  </div>
+</footer>

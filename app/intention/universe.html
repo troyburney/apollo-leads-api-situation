@@ -1,127 +1,164 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Universe / KanbanFlow</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
 
-<html>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-    <head>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
 
-        <title>
+        /* Large Hero Intention Style */
+        .intention-display-container {
+            height: calc(100vh - 160px); /* Adjust for nav and footer */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-            The Universe / The Intention App
+        #intention {
+            font-size: 6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            color: #375a7f;
+            letter-spacing: -3px;
+            line-height: 1;
+        }
 
-        </title>
+        #intention:hover {
+            color: #00bc8c;
+            transform: scale(1.02);
+        }
 
-        <link rel="shortcut icon" href="/favicon.ico" />
+        /* Standardized Modal Styles */
+        .modal-content {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+        }
+        .modal-header {
+            border-bottom: 1px solid #444;
+            background-color: #303030;
+        }
+    </style>
+</head>
+<body>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+<!-- html / menu / begin -->
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/vapor/bootstrap.min.css">
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/index.html">K333anbanFlow</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="/intention/intention.html">Intention</a></li>
+        <li class="nav-item"><a class="nav-link" href="/calendar/calendar.html">Calendar</a></li>
+        <li class="nav-item"><a class="nav-link" href="/project/list.html">All Projects</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/project/kanban.html">Kanban Board</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Work Space</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/story/inprogress.html">In Progress</a>
+            <a class="dropdown-item" href="/story/completed.html">Score Board</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/project/create.html">Create Project</a>
+            <a class="dropdown-item" href="/story/create.html">Create Story</a>
+          </div>
+        </li>
+      </ul>
+      <button class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#sidebarRight">
+        <i class="fas fa-th-large"></i> Project Switcher
+      </button>
+    </div>
+  </div>
+</nav>
 
-        <link rel="stylesheet" type="text/css" href="/intention/styling/universe.css" />
+<!-- html / menu / end -->
 
-    </head>
+<div class="container-fluid">
+    <div class="intention-display-container">
+        <div id="intention"
+             data-bs-toggle="modal"
+             data-bs-target="#setIntentionModal">
+            --
+        </div>
+    </div>
+</div>
 
-    <body>
-
-        <div class="d-flex align-items-center justify-content-center"  style="height: 100%;">
-
-            <div
-                id="intention"
-                class="fff" 
-                data-toggle="modal"
-                data-target="#setIntentionModal">
-
---
-
+<div class="modal fade" id="setIntentionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header">
+                <h5 class="modal-title text-info uppercase fw-bold">
+                    <i class="fas fa-crosshairs me-2"></i>Update Universe Intention
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-        </div>
-
-        <!-- modal / set intention / begin -->
-
-        <div class="modal fade" id="setIntentionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        
-<h5 class="modal-title" id="exampleModalLongTitle">
-
-Set Intention
-
-</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <label for="currentIntention" class="form-label">
-
-                            Current Intention:
-
-                        </label>
-
-                        <br />
-                        <br />
-
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="currentIntention" 
-                            placeholder="--" disabled>
-
-                        <br />
-                        
-                        <br />
-
-                        <label for="newIntention" class="form-label">
-
-                            New Intention:
-
-                        </label>
-
-                        <br />
-                        
-                        <br />
-
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="newIntention" 
-                            placeholder="enter your intention here">
-
-                        <br />
-
-                    </div>
-
-                    <div class="modal-footer">
-                        
- 
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="setIntention()">Set Intention</button>
- 
-                    </div>
-                    
+            <div class="modal-body p-4">
+                <div class="mb-4">
+                    <label class="form-label text-muted small text-uppercase fw-bold">Current Focus</label>
+                    <input type="text" id="currentIntention" class="form-control bg-dark border-secondary text-white" value="--" disabled>
                 </div>
-                
+
+                <div class="mb-2">
+                    <label for="newIntention" class="form-label text-success small text-uppercase fw-bold">New Focus</label>
+                    <input type="text" id="newIntention" class="form-control border-success text-white" placeholder="What are we doing?" style="background-color: #1a1a1a;">
+                </div>
             </div>
-            
+
+            <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal" onclick="setIntention()">
+                    Set Intention
+                </button>
+            </div>
         </div>
+    </div>
+</div>
 
-        <!-- modal / set intention / end -->
+<div class="offcanvas offcanvas-end bg-dark text-light" tabindex="-1" id="sidebarRight">
+  <div class="offcanvas-header border-bottom border-secondary">
+    <h5 class="offcanvas-title">Current Project</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="projectBannerArea" class="mb-4 text-center">
+        <button id="projectBanner" disabled type="button" class="btn btn-lg btn-success w-100">--</button>
+    </div>
+    <hr class="border-secondary">
+    <h5>Select Project</h5>
+    <div id="projectSwitcherArea" class="d-grid gap-2">
+        </div>
+  </div>
+</div>
 
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="/js/config.js"></script>
+<script src="/js/project.js"></script>
+<script src="/project/scripting/flyout.js"></script>
+<script src="/intention/scripting/intention.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+    $('#setIntentionModal').on('shown.bs.modal', function () {
+        $('#newIntention').focus();
+    });
+</script>
 
-        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>
-
-        <script src="/scripting/config/config.js" defer=""></script>
-
-        <script src="/intention/scripting/intention.js"></script>
-
-    </body>
-
+</body>
 </html>
