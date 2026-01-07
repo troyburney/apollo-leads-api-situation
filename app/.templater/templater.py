@@ -36,7 +36,7 @@ def update_section_js_includes():
 
     markerEnd = "<!-- html / scripting / end -->"
 
-    templateFilePath = 'templates/javascript-includes.template'
+    templateFilePath = 'templates/javascript.template'
 
     update_html_section(htmlFilePath, templateFilePath, markerBegin, markerEnd)
 
@@ -121,8 +121,6 @@ update_section_css_includes()
 update_section_js_includes()
 
 update_section_menu()
-
-update_section_navbar()
 
 update_section_body()
 
