@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darkly Kanban Board</title>
+    <!-- Bootswatch Darkly Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css">
+    <!-- jQuery UI for Drag and Drop -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        body {
+            background-color: #1a1a1a;
+        }
+
+        .kanban-container {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .kanban-column {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            min-height: 80vh;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+        }
+
+        .kanban-header {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #375a7f;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .kanban-items {
+            min-height: 70vh;
+        }
+
+        .kanban-card {
+            background-color: #3a3a3a;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: grab;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .kanban-card:active {
+            cursor: grabbing;
+        }
+
+        .kanban-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            border-color: #375a7f;
+        }
+
+        .ui-sortable-placeholder {
+            border: 2px dashed #375a7f !important;
+            visibility: visible !important;
+            background: rgba(55, 90, 127, 0.1) !important;
+            height: 100px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .add-task-btn {
+            width: 100%;
+            margin-top: 10px;
+            border-style: dashed;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Your Requested Navbar -->
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">KanbanFlow</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Home
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+          </div>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-sm-2" type="search" placeholder="Search tasks...">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid kanban-container">
+    <div class="row g-4">
+        <!-- Column 1: Backlog -->
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="kanban-column">
+                <div class="kanban-header d-flex justify-content-between align-items-center">
+                    <span>Backlog</span>
+                    <span class="badge bg-secondary rounded-pill task-count">2</span>
+                </div>
+                <div class="kanban-items" id="backlog">
+                    <div class="kanban-card">
+                        <h6>Website Redesign</h6>
+                        <p class="text-muted small mb-0">Review the UI/UX mocks for the new landing page.</p>
+                        <span class="card-tag bg-info text-dark">Design</span>
+                    </div>
+                    <div class="kanban-card">
+                        <h6>API Integration</h6>
+                        <p class="text-muted small mb-0">Connect the dashboard to the production telemetry API.</p>
+                        <span class="card-tag bg-warning text-dark">Dev</span>
+                    </div>
+                </div>
+                <button class="btn btn-outline-light btn-sm add-task-btn">+ Add Task</button>
+            </div>
+        </div>
+
+        <!-- Column 2: To Do -->
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="kanban-column">
+                <div class="kanban-header d-flex justify-content-between align-items-center">
+                    <span>To Do</span>
+                    <span class="badge bg-secondary rounded-pill task-count">1</span>
+                </div>
+                <div class="kanban-items" id="todo">
+                    <div class="kanban-card">
+                        <h6>Database Cleanup</h6>
+                        <p class="text-muted small mb-0">Remove old migration logs from the staging DB.</p>
+                        <span class="card-tag bg-danger">Urgent</span>
+                    </div>
+                </div>
+                <button class="btn btn-outline-light btn-sm add-task-btn">+ Add Task</button>
+            </div>
+        </div>
+
+        <!-- Column 3: In Progress -->
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="kanban-column">
+                <div class="kanban-header d-flex justify-content-between align-items-center">
+                    <span>In Progress</span>
+                    <span class="badge bg-secondary rounded-pill task-count">1</span>
+                </div>
+                <div class="kanban-items" id="inprogress">
+                    <div class="kanban-card">
+                        <h6>Dark Mode Implementation</h6>
+                        <p class="text-muted small mb-0">Apply the new Darkly theme to the main portal.</p>
+                        <span class="card-tag bg-success">Active</span>
+                    </div>
+                </div>
+                <button class="btn btn-outline-light btn-sm add-task-btn">+ Add Task</button>
+            </div>
+        </div>
+
+        <!-- Column 4: Done -->
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="kanban-column">
+                <div class="kanban-header d-flex justify-content-between align-items-center">
+                    <span>Done</span>
+                    <span class="badge bg-secondary rounded-pill task-count">1</span>
+                </div>
+                <div class="kanban-items" id="done">
+                    <div class="kanban-card">
+                        <h6>Project Setup</h6>
+                        <p class="text-muted small mb-0">Initialize git repository and CI/CD pipelines.</p>
+                        <span class="card-tag bg-primary">Setup</span>
+                    </div>
+                </div>
+                <button class="btn btn-outline-light btn-sm add-task-btn">+ Add Task</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- body / javascript / begin --><! -- software shinobi shit -->
+
+<script src="/js/config.js"></script>
+
+<script src="/js/project.js"></script>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>
+
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+<script src="/dist/js/adminlte.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js "></script>
+
+<script src="/project/scripting/flyout.js"></script>
+<!-- body / javascript / end -->
+
+<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+<script src="js/kanban.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize Drag and Drop
+        $(".kanban-items").sortable({
+            connectWith: ".kanban-items",
+            placeholder: "ui-sortable-placeholder",
+            start: function(event, ui) {
+                ui.item.css('transform', 'rotate(3deg)');
+            },
+            stop: function(event, ui) {
+                ui.item.css('transform', 'rotate(0deg)');
+                updateCounts();
+            }
+        }).disableSelection();
+
+        // Update task counts in badges
+        function updateCounts() {
+            $(".kanban-column").each(function() {
+                const count = $(this).find(".kanban-card").length;
+                $(this).find(".task-count").text(count);
+            });
+        }
+
+        // Add Task logic (Simple Mockup)
+        $(".add-task-btn").on("click", function() {
+            const targetList = $(this).siblings(".kanban-items");
+            const newCard = `
+                <div class="kanban-card">
+                    <h6>New Task</h6>
+                    <p class="text-muted small mb-0">Edit this task to provide details.</p>
+                    <span class="card-tag bg-secondary">New</span>
+                </div>
+            `;
+            targetList.append(newCard);
+            updateCounts();
+        });
+
+        // Initialize counts on load
+        updateCounts();
+    });
+</script>
+
+</body>
+</html>
