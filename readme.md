@@ -35,13 +35,13 @@ Features a Spring Boot backend, a MariaDB database, and a web-based frontend.
 ## 📂 Project Structure
 
 ```text
-[cite_start]├── app/                # Frontend web application files [cite: 440]
-[cite_start]├── docs/               # Documentation source (MkDocs) [cite: 441]
+├── app/                # Frontend web application files
+├── docs/               # Documentation source (MkDocs)
 ├── src/
 │   └── main/
-[cite_start]│       ├── java/       # Spring Boot backend source code [cite: 573]
-[cite_start]│       └── resources/  # Application configuration (properties) [cite: 449]
-[cite_start]├── compose.yaml        # Docker Compose configuration [cite: 435]
+│       ├── java/       # Spring Boot backend source code
+│       └── resources/  # Application configuration (properties)
+├── compose.yaml        # Docker Compose configuration
 ├── Jenkinsfile         # CI/CD pipeline configuration
 └── pom.xml             # Maven dependencies (referenced in readme.md)
 
@@ -61,7 +61,7 @@ The easiest way to get the entire stack running is using the provided `compose.b
 
 ```bash
 chmod +x compose.bash
-./compose.bash
+bash compose.bash
 
 ```
 
