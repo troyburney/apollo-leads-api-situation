@@ -1,6 +1,10 @@
 # Kanban Flow
 
-Kanban Flow is a full-stack project management application designed to help teams organize, track, and manage their work using Agile methodologies. It features a Spring Boot backend, a MariaDB database, and a web-based frontend.
+A full-stack project management application to help teams organize, track, and manage their work using Agile methodologies.
+
+![Kanban Flow Cover](cover.png)
+
+Features a Spring Boot backend, a MariaDB database, and a web-based frontend.
 
 ## 🚀 Features
 
