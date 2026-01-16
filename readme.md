@@ -114,4 +114,4 @@ The backend provides several RESTful endpoints:
 
 ---
 
-*Made with ❤ by [Software Shinobi*](https://softwareshinobi.online)
+Made with ❤ by [Software Shinobi](https://softwareshinobi.online)
