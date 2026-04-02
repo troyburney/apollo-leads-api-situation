@@ -1,10 +1,10 @@
 services:
 
-    valorant-digital-workspace-web:
+    KanbanFlow-app-standalone:
 
-        container_name: valorant-digital-workspace-web
+        container_name: KanbanFlow-app-standalone
 
-        image: softwareshinobi/valorant-digital-workspace-web:aventador
+        image: embanet/kanbanflow-app:main
 
         build: 
 
@@ -15,3 +15,9 @@ services:
         ports:
 
             - 8000:80
+
+        environment:
+
+            - API_URL=http://localhost:8888
+
+            #- API_URL=https://apis.identity.ariaos.online

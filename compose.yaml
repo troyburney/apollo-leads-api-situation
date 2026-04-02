@@ -100,6 +100,12 @@ services:
 
             - 8000:80
 
+        environment:
+
+            - API_URL=http://localhost:8888
+
+            #- API_URL=https://apis.identity.ariaos.online
+
     kanbanflow-docs:
 
         container_name: kanbanflow-docs
